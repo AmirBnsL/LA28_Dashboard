@@ -1,27 +1,47 @@
 import pandas as pd
 import streamlit as st
-import os
 
 @st.cache_data
 def load_data():
-    # Get the directory where utils.py is located (project root)
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(current_dir, 'data')
-    
     try:
-        df_athletes = pd.read_csv(os.path.join(data_dir, 'athletes.csv'))
-        df_medals = pd.read_csv(os.path.join(data_dir, 'medals_total.csv'))
-        df_events = pd.read_csv(os.path.join(data_dir, 'events.csv'))
-        df_nocs = pd.read_csv(os.path.join(data_dir, 'nocs.csv'))
+        df_athletes = pd.read_csv('data/athletes.csv')
+        df_medals = pd.read_csv('data/medals_total.csv')
+        df_events = pd.read_csv('data/events.csv')
+        df_nocs = pd.read_csv('data/nocs.csv')
         return df_athletes, df_medals, df_events, df_nocs
-    except FileNotFoundError as e:
-        st.error(f"Data files not found: {e}. Please ensure CSVs are in the 'data/' folder.")
+    except FileNotFoundError:
+        st.error("Data files not found. Please upload CSVs to the 'data/' folder.")
         return None, None, None, None
 
-def sidebar_filters(df):
+def sidebar_filters(df_athletes, df_events, df_nocs):
     st.sidebar.header("Global Filters")
-    if df is not None:
-        countries = st.sidebar.multiselect("Country", sorted(df['country'].unique()))
-        sports = st.sidebar.multiselect("Sport", sorted(df['disciplines'].unique()))
-        return countries, sports, None
-    return [], [], None
+    
+    # Country Filter
+    # Get list of countries from NOCs or Athletes. NOCs is cleaner.
+    if df_nocs is not None:
+        all_countries = sorted(df_nocs['country'].unique())
+        selected_countries = st.sidebar.multiselect("Select Country (NOC)", all_countries)
+    else:
+        selected_countries = []
+    
+    # Sport Filter
+    # Get list of sports from Events
+    if df_events is not None:
+        all_sports = sorted(df_events['sport'].unique())
+        selected_sports = st.sidebar.multiselect("Select Sport", all_sports)
+    else:
+        selected_sports = []
+    
+    # Medal Type Filter
+    st.sidebar.subheader("Medal Type")
+    col1, col2, col3 = st.sidebar.columns(3)
+    gold = col1.checkbox("Gold", value=True)
+    silver = col2.checkbox("Silver", value=True)
+    bronze = col3.checkbox("Bronze", value=True)
+    
+    medal_types = []
+    if gold: medal_types.append("Gold Medal")
+    if silver: medal_types.append("Silver Medal")
+    if bronze: medal_types.append("Bronze Medal")
+    
+    return selected_countries, selected_sports, medal_types 
