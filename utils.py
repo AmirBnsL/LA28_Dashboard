@@ -1,18 +1,21 @@
 import pandas as pd
 import streamlit as st
+import os
 
 @st.cache_data
 def load_data():
-    # Placeholder for data loading logic
-    # Ensure you place your CSVs in the 'data/' folder
+    # Get the directory where utils.py is located (project root)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(current_dir, 'data')
+    
     try:
-        df_athletes = pd.read_csv('data/athletes.csv')
-        df_medals = pd.read_csv('data/medals_total.csv')
-        df_events = pd.read_csv('data/events.csv')
-        df_nocs = pd.read_csv('data/nocs.csv')
+        df_athletes = pd.read_csv(os.path.join(data_dir, 'athletes.csv'))
+        df_medals = pd.read_csv(os.path.join(data_dir, 'medals_total.csv'))
+        df_events = pd.read_csv(os.path.join(data_dir, 'events.csv'))
+        df_nocs = pd.read_csv(os.path.join(data_dir, 'nocs.csv'))
         return df_athletes, df_medals, df_events, df_nocs
-    except FileNotFoundError:
-        st.error("Data files not found. Please upload CSVs to the 'data/' folder.")
+    except FileNotFoundError as e:
+        st.error(f"Data files not found: {e}. Please ensure CSVs are in the 'data/' folder.")
         return None, None, None, None
 
 def sidebar_filters(df):
