@@ -45,3 +45,34 @@ def sidebar_filters(df_athletes, df_events, df_nocs):
     if bronze: medal_types.append("Bronze Medal")
     
     return selected_countries, selected_sports, medal_types 
+def filter_data(df_athletes, df_nocs, df_events, df_medals, selected_countries, selected_sports):
+    """
+    Filter the main dataframes based on selected countries and sports.
+    """
+    # 1. Filter Athletes
+    filtered_athletes = df_athletes.copy()
+    if selected_countries:
+        filtered_athletes = filtered_athletes[filtered_athletes['country'].isin(selected_countries)]
+    if selected_sports:
+        # disciplines is a string representation of a list, e.g., "['Wrestling']"
+        # We check if any of the selected sports appear in the string
+        # A regex join is efficient: "Sport1|Sport2"
+        pattern = '|'.join(selected_sports)
+        filtered_athletes = filtered_athletes[filtered_athletes['disciplines'].str.contains(pattern, regex=True, na=False)]
+
+    # 2. Filter NOCs (Countries)
+    filtered_nocs = df_nocs.copy()
+    if selected_countries:
+        filtered_nocs = filtered_nocs[filtered_nocs['country'].isin(selected_countries)]
+
+    # 3. Filter Events
+    filtered_events = df_events.copy()
+    if selected_sports:
+        filtered_events = filtered_events[filtered_events['sport'].isin(selected_sports)]
+
+    # 4. Filter Medals
+    filtered_medals = df_medals.copy()
+    if selected_countries:
+        filtered_medals = filtered_medals[filtered_medals['country'].isin(selected_countries)]
+        
+    return filtered_athletes, filtered_nocs, filtered_events, filtered_medals
