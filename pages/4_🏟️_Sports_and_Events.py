@@ -376,7 +376,6 @@ if country_a and country_b:
 
 st.header("🏅 Who Won the Day?")
 
-# Normalized date columns
 df_medals["medal_day"] = pd.to_datetime(df_medals["medal_date"]).dt.date
 df_schedule["day"] = pd.to_datetime(df_schedule["start_date"]).dt.date
 
@@ -389,7 +388,6 @@ selected_day = st.slider(
     format="YYYY-MM-DD",
 )
 
-# Medals on that day
 day_medals = df_medals[df_medals["medal_day"] == selected_day]
 
 st.subheader(f"Medals awarded on {selected_day}")
@@ -412,7 +410,6 @@ else:
     )
     st.plotly_chart(fig_day, use_container_width=True)
 
-# Key events on that day
 st.subheader(f"Key events on {selected_day}")
 day_events = df_schedule[df_schedule["day"] == selected_day]
 
