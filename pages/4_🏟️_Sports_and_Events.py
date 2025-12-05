@@ -98,9 +98,6 @@ st.divider()
 render_venues_map(df_venues)
 st.divider()
 
-# Global Medal Distribution
-render_global_medal_distribution(df_medals, selected_medals, selected_continent)
-st.divider()
 
 # Head-to-Head Comparison
 render_head_to_head(df_medals)
