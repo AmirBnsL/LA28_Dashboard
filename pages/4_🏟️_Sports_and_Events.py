@@ -333,10 +333,20 @@ st.header("🇨🇺🇫🇷 Head-to-Head Country Comparison")
 countries = sorted(df_medals["country"].unique())
 col_sel1, col_sel2 = st.columns(2)
 with col_sel1:
-    country_a = st.selectbox("Country A", countries, key="country_a")
+    country_a = st.selectbox(
+        "Country A",
+        countries,
+        key="country_a",
+    )
+countries_b_options = [c for c in countries if c != country_a]
 with col_sel2:
-    country_b = st.selectbox("Country B", countries, key="country_b")
-
+    default_b_index = 0  
+    country_b = st.selectbox(
+        "Country B",
+        countries_b_options,
+        index=default_b_index,
+        key="country_b",
+    )
 def country_summary(df, country):
     sub = df[df["country"] == country]
     return {
