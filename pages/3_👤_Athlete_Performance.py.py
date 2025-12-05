@@ -13,6 +13,33 @@ import utils
 
 st.set_page_config(page_title="Athlete Performance", page_icon="👤", layout="wide")
 
+# Load data - use utils for common data, load additional files needed for this page
+df_athletes, _, df_events, df_nocs = utils.load_data()
+
+# Load additional data files needed for athlete performance page
+@st.cache_data
+def load_athlete_page_data():
+    try:
+        df_coaches = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'data', 'coaches.csv'))
+    except FileNotFoundError:
+        df_coaches = pd.DataFrame()
+    
+    try:
+        df_teams = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'data', 'teams.csv'))
+    except FileNotFoundError:
+        df_teams = pd.DataFrame()
+    
+    try:
+        df_medallists = pd.read_csv(os.path.join(os.path.dirname(__file__), '..', 'data', 'medallists.csv'))
+    except FileNotFoundError:
+        df_medallists = pd.DataFrame()
+    
+    return df_coaches, df_teams, df_medallists
+
+df_coaches, df_teams, df_medallists = load_athlete_page_data()
+
+
+
 
 # ============ GOOGLE IMAGE SEARCH FUNCTION ============
 @st.cache_data(ttl=3600, show_spinner=False)
@@ -88,17 +115,7 @@ def get_profile_image_url(name: str, gender: str, country: str = "") -> str:
     else:
         return f"https://ui-avatars.com/api/?name={initials}&size=200&background=e74c3c&color=fff&bold=true"
 
-# Load data
-@st.cache_data
-def load_athlete_data():
-    df_athletes = pd.read_csv('../data/athletes.csv')
-    df_coaches = pd.read_csv('../data/coaches.csv')
-    df_teams = pd.read_csv('../data/teams.csv')
-    df_medallists = pd.read_csv('../data/medallists.csv')
-    df_nocs = pd.read_csv('../data/nocs.csv')
-    return df_athletes, df_coaches, df_teams, df_medallists, df_nocs
 
-df_athletes, df_coaches, df_teams, df_medallists, df_nocs = load_athlete_data()
 
 # Calculate age from birth_date
 def calculate_age(birth_date):
@@ -438,7 +455,7 @@ with col1:
             color_discrete_map={'Male': '#3498db', 'Female': '#e74c3c'}
         )
         fig_box.update_layout(height=400)
-        st.plotly_chart(fig_box, use_container_width=True)
+        st.plotly_chart(fig_box, width='stretch')
 
 with col2:
     # Violin plot by sport (top 10 sports)
@@ -458,7 +475,7 @@ with col2:
             box=True
         )
         fig_violin.update_layout(height=400)
-        st.plotly_chart(fig_violin, use_container_width=True)
+        st.plotly_chart(fig_violin, width='stretch')
 
 # Task 3: Gender Distribution by Continent and Country
 st.subheader("⚖️ Gender Distribution Analysis")
@@ -481,7 +498,7 @@ if continent_country_selector == "World":
             color=gender_dist.index,
             color_discrete_map={'Male': '#3498db', 'Female': '#e74c3c'}
         )
-        st.plotly_chart(fig_pie, use_container_width=True)
+        st.plotly_chart(fig_pie, width='stretch')
     
     with col2:
         fig_bar = px.bar(
@@ -492,7 +509,7 @@ if continent_country_selector == "World":
             color=gender_dist.index,
             color_discrete_map={'Male': '#3498db', 'Female': '#e74c3c'}
         )
-        st.plotly_chart(fig_bar, use_container_width=True)
+        st.plotly_chart(fig_bar, width='stretch')
 
 elif continent_country_selector == "Continent":
     selected_continent = st.selectbox(
@@ -512,7 +529,7 @@ elif continent_country_selector == "Continent":
             color=gender_dist.index,
             color_discrete_map={'Male': '#3498db', 'Female': '#e74c3c'}
         )
-        st.plotly_chart(fig_pie, use_container_width=True)
+        st.plotly_chart(fig_pie, width='stretch')
     
     with col2:
         # Country breakdown
@@ -527,7 +544,7 @@ elif continent_country_selector == "Continent":
             color_discrete_map={'Male': '#3498db', 'Female': '#e74c3c'}
         )
         fig_bar.update_layout(xaxis_tickangle=-45)
-        st.plotly_chart(fig_bar, use_container_width=True)
+        st.plotly_chart(fig_bar, width='stretch')
 
 else:  # Country
     selected_country_gender = st.selectbox(
@@ -547,7 +564,7 @@ else:  # Country
             color=gender_dist.index,
             color_discrete_map={'Male': '#3498db', 'Female': '#e74c3c'}
         )
-        st.plotly_chart(fig_pie, use_container_width=True)
+        st.plotly_chart(fig_pie, width='stretch')
     
     with col2:
         # Sport breakdown
@@ -562,7 +579,7 @@ else:  # Country
             color_discrete_map={'Male': '#3498db', 'Female': '#e74c3c'}
         )
         fig_bar.update_layout(xaxis_tickangle=-45)
-        st.plotly_chart(fig_bar, use_container_width=True)
+        st.plotly_chart(fig_bar, width='stretch')
 
 # Task 4: Top Athletes by Medals
 st.subheader("🏆 Top Athletes by Medal Count")
@@ -653,7 +670,7 @@ fig_medals.update_layout(
     yaxis={'categoryorder': 'total ascending'}
 )
 
-st.plotly_chart(fig_medals, use_container_width=True)
+st.plotly_chart(fig_medals, width='stretch')
 
 # Summary Statistics
 st.markdown("---")
