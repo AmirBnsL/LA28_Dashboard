@@ -82,7 +82,7 @@ def render_watch_highlights(df_schedule: pd.DataFrame, df_medals: pd.DataFrame):
             "🎬 Watch on YouTube",
             url=youtube_url,
             type="primary",
-            use_container_width=True
+            width='stretch'
         )
 
     # Quick links for popular events
@@ -100,4 +100,4 @@ def render_watch_highlights(df_schedule: pd.DataFrame, df_medals: pd.DataFrame):
     for i, (label, sport, event) in enumerate(quick_links):
         with cols[i]:
             url = generate_youtube_search_url(sport, event)
-            st.link_button(label, url, use_container_width=True)
+            st.link_button(label, url, width='stretch')

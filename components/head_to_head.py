@@ -159,7 +159,7 @@ def render_head_to_head(df_medals: pd.DataFrame):
 
         # Create and display tug-of-war chart
         fig = create_tug_of_war_chart(summary_a, summary_b, country_a, country_b)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         
         # Winner announcement
         total_a = sum(int(v) if str(v).isdigit() else 0 for v in summary_a.values())

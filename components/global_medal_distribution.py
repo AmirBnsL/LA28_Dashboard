@@ -231,7 +231,7 @@ def render_global_medal_distribution(
                 showcoastlines=True,
             )
         )
-        st.plotly_chart(fig_map_global, use_container_width=True)
+        st.plotly_chart(fig_map_global, width='stretch')
     else:
         st.info("Please select at least one medal type in the sidebar.")
 
@@ -263,6 +263,6 @@ def render_global_medal_distribution(
             labels={"total_medals": "Total Medals", "country": "Country"},
         )
         fig_bar.update_layout(xaxis={"categoryorder": "total descending"})
-        st.plotly_chart(fig_bar, use_container_width=True)
+        st.plotly_chart(fig_bar, width='stretch')
     else:
         st.warning(f"⚠️ No medal data for **{selected_continent}** with current filters.")

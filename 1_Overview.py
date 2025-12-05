@@ -106,7 +106,7 @@ with col_charts_1:
                 showlegend=False,
                 margin=dict(t=20, b=20, l=20, r=20)
             )
-            st.plotly_chart(fig_pie, use_container_width=True)
+            st.plotly_chart(fig_pie, width='stretch')
         else:
             st.warning("No medals found for the current selection.")
     else:
@@ -149,7 +149,7 @@ with col_charts_2:
             )
             fig_bar.update_traces(textposition='outside')
             
-            st.plotly_chart(fig_bar, use_container_width=True)
+            st.plotly_chart(fig_bar, width='stretch')
         else:
             st.warning("No medals found for the current selection.")
     else:

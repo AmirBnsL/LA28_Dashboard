@@ -47,4 +47,4 @@ def render_medal_count_by_sport(
             title="Distribution of Medals across Sports and Events",
         )
         fig_treemap.update_traces(root_color="lightgrey")
-        st.plotly_chart(fig_treemap, use_container_width=True)
+        st.plotly_chart(fig_treemap, width='stretch')

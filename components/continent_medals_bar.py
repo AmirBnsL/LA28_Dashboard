@@ -48,4 +48,4 @@ def render_continent_medals_bar(df_filtered: pd.DataFrame):
         height=400,
         hovermode='x unified'
     )
-    st.plotly_chart(fig_continent, use_container_width=True)
+    st.plotly_chart(fig_continent, width='stretch')

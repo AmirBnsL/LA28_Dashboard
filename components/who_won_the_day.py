@@ -52,7 +52,7 @@ def render_who_won_the_day(df_medals: pd.DataFrame, df_schedule: pd.DataFrame):
             },
         )
         fig_day.update_layout(xaxis={"categoryorder": "total descending"})
-        st.plotly_chart(fig_day, use_container_width=True)
+        st.plotly_chart(fig_day, width='stretch')
 
     st.subheader(f"Key events on {selected_day}")
     day_events = df_schedule[df_schedule["day"] == selected_day]
@@ -71,4 +71,4 @@ def render_who_won_the_day(df_medals: pd.DataFrame, df_schedule: pd.DataFrame):
             height=600,
         )
         fig_day_timeline.update_yaxes(autorange="reversed")
-        st.plotly_chart(fig_day_timeline, use_container_width=True)
+        st.plotly_chart(fig_day_timeline, width='stretch')

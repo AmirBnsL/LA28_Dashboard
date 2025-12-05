@@ -72,3 +72,21 @@ def load_events_data() -> pd.DataFrame:
 def load_nocs_data() -> pd.DataFrame:
     """Load NOCs data."""
     return pd.read_csv(get_data_path("nocs.csv"))
+
+
+@st.cache_data
+def load_coaches_data() -> pd.DataFrame:
+    """Load coaches data."""
+    return pd.read_csv(get_data_path("coaches.csv"))
+
+
+@st.cache_data
+def load_teams_data() -> pd.DataFrame:
+    """Load teams data."""
+    return pd.read_csv(get_data_path("teams.csv"))
+
+
+@st.cache_data
+def load_medallists_data() -> pd.DataFrame:
+    """Load medallists data."""
+    return pd.read_csv(get_data_path("medallists.csv"))

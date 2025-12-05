@@ -69,4 +69,4 @@ def render_event_schedule(df_schedule: pd.DataFrame, selected_sports: list, sele
                     height=dynamic_height,
                 )
                 fig_timeline.update_yaxes(autorange="reversed")
-                st.plotly_chart(fig_timeline, use_container_width=True)
+                st.plotly_chart(fig_timeline, width='stretch')

@@ -57,7 +57,7 @@ def render_venues_map(df_venues: pd.DataFrame):
         
         fig_venues.update_traces(marker=dict(size=14))
         
-        st.plotly_chart(fig_venues, use_container_width=True)
+        st.plotly_chart(fig_venues, width='stretch')
         
         # Legend
         st.subheader("🎨 Venue Type Legend")
@@ -71,7 +71,7 @@ def render_venues_map(df_venues: pd.DataFrame):
             display_cols = ["venue", "venue_type", "sports"] if "sports" in map_data.columns else ["venue", "venue_type"]
             st.dataframe(
                 map_data[display_cols].drop_duplicates(),
-                use_container_width=True,
+                width='stretch',
                 hide_index=True,
             )
     else:

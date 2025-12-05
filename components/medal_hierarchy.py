@@ -56,7 +56,7 @@ def render_medal_hierarchy(df_filtered: pd.DataFrame, show_gold: bool, show_silv
                 title='Sunburst: Continent → Country → Medal Type'
             )
             fig_sunburst.update_layout(height=500)
-            st.plotly_chart(fig_sunburst, use_container_width=True)
+            st.plotly_chart(fig_sunburst, width='stretch')
         else:
             st.info("No data available for the selected filters")
 
@@ -71,6 +71,6 @@ def render_medal_hierarchy(df_filtered: pd.DataFrame, show_gold: bool, show_silv
                 title='Treemap: Continent → Country → Medal Type'
             )
             fig_treemap.update_layout(height=500)
-            st.plotly_chart(fig_treemap, use_container_width=True)
+            st.plotly_chart(fig_treemap, width='stretch')
         else:
             st.info("No data available for the selected filters")

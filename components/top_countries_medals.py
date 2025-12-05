@@ -51,4 +51,4 @@ def render_top_countries_medals(df_filtered: pd.DataFrame):
         hovermode='y unified',
         yaxis={'categoryorder': 'total ascending'}
     )
-    st.plotly_chart(fig_top20, use_container_width=True)
+    st.plotly_chart(fig_top20, width='stretch')
