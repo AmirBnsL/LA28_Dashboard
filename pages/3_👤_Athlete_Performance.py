@@ -52,24 +52,31 @@ except FileNotFoundError as e:
     st.stop()
 
 # -------------------------------------------------------
-# Data Preprocessing
+# Data Preprocessing (cached for performance)
 # -------------------------------------------------------
 
-# Calculate age from birth_date
-def calculate_age(birth_date):
-    try:
-        if pd.notna(birth_date):
-            birth = pd.to_datetime(birth_date)
-            age = 2025 - birth.year
-            return age
-    except:
-        pass
-    return None
+@st.cache_data
+def preprocess_athletes(df_athletes: pd.DataFrame) -> pd.DataFrame:
+    """Preprocess athletes data with age and continent - cached for performance."""
+    df = df_athletes.copy()
+    
+    # Calculate age from birth_date
+    def calculate_age(birth_date):
+        try:
+            if pd.notna(birth_date):
+                birth = pd.to_datetime(birth_date)
+                age = 2025 - birth.year
+                return age
+        except:
+            pass
+        return None
+    
+    df['age'] = df['birth_date'].apply(calculate_age)
+    df['Continent'] = df['country'].apply(get_continent)
+    return df
 
-df_athletes['age'] = df_athletes['birth_date'].apply(calculate_age)
-
-# Add continent mapping using helper function
-df_athletes['Continent'] = df_athletes['country'].apply(get_continent)
+# Apply preprocessing (cached)
+df_athletes = preprocess_athletes(df_athletes)
 
 # -------------------------------------------------------
 # Sidebar Filters
